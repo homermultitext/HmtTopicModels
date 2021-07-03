@@ -1,5 +1,9 @@
 module HmtTopicModels
+using EditionBuilders
+using CitableText
+using CitableCorpus
+using EzXML
 
-greet() = print("Hello World!")
+include("builders.jl")
 
 end # module
