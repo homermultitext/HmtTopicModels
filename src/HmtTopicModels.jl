@@ -1,6 +1,6 @@
 module HmtTopicModels
 using EditionBuilders
-using CitableText
+using CitableText, CitableObject
 using CitableCorpus
 using EzXML
 using Unicode

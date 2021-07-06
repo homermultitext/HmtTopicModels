@@ -82,7 +82,17 @@ function editedelement(builder::HmtTMBuilder, el, accum)
         else
             # Should we test further here?
             # For valid URN syntax? For presence in authlist?
-            push!(reply, el["n"])
+            try 
+                urn = Cite2Urn(el["n"])
+                obj = objectcomponent(urn)
+                parts = split(collectioncomponent(urn), ".")
+
+
+                push!(reply, string(parts[1], "_", obj))
+            catch e
+                msg = "Invalid URN in $(ezxmlstring(el))"
+                throw(DomainError(msg))
+            end
         end
 
     elseif skipelement(builder, el.name)
