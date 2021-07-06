@@ -4,12 +4,12 @@ using CitableText
 using CitableCorpus
 using EzXML
 
-import EditionBuilders: editedelement, editedtext
+import EditionBuilders: editednode, editedelement, editedtext
 import EditionBuilders: TEIchoice, skipelement
 
 include("builders.jl")
 
-export editedelement, editedtext
+export editednode, editedelement, editedtext
 export skipelement, TEIchoice
 
 
