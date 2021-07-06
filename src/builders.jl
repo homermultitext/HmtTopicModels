@@ -1,31 +1,51 @@
 
 
-"EditionBuilders sharing editorial conventions of a basic MID project."
-#abstract type MidBasicBuilder <: EditionBuilder end
+"Edition builderssharing to create an edition for HMT topic modelling."
 struct HmtTMBuilder <: MidBasicBuilder
     name
     versionid
  end
 
+ """True if element should b skipped in creating topic modelling edition.
+ """
 function skipelement(builder::HmtTMBuilder, elname)
     elname in ["del", "ref","note","q","cit"]
 end
 
 
-"Collect text of w element"
-#=
-function collectw(el, bldr::HmtTMBuilder)
-     # collect and squeeze:
-     children = nodes(el)
-     wordparts = []
-     for c in children
-         childres = editedtext(bldr, c, "")
-         push!(wordparts, childres)
-     end
-     # single token padded by ws:
-     singletoken = replace(join(wordparts,""), r"[ ]+" => "")
+"Choose normalized option from MID-legal TEI choice."
+function TEIchoice(builder::HmtTMBuilder, n)
+    #= Account for:
+        abbr/expan
+        orig/reg
+        sic/corr
+    =#
+    children = elements(n)
+    childnames = map(n -> n.name, children)
+    if "abbr" in childnames
+        abbrlist = filter(n -> n.name == "expan", children)
+        editedtext(builder, abbrlist[1])
+
+    elseif "orig" in childnames
+        origlist = filter(n -> n.name == "reg", children)
+        editedtext(builder, origlist[1])
+
+
+    elseif "sic" in childnames
+        siclist = filter(n -> n.name == "corr", children)
+        editedtext(builder, siclist[1])
+
+
+    else
+        nameslist = join(childnames, ", ")
+        x = ezxmlstring(n)
+        msg =  "Invalid syntax for choice element with children $(nameslist) in $(x)"
+  
+        throw(DomainError(msg))
+    end
 end
-=#
+
+
 
 "Compose edited text of a given XML element using a given builder."
 function editedelement(builder::HmtTMBuilder, el, accum)
@@ -40,7 +60,7 @@ function editedelement(builder::HmtTMBuilder, el, accum)
         push!(reply, "«" * el.content * "»")
 
     elseif el.name == "choice"
-        if ! validchoice(el)
+        if ! EditionBuilders.validchoice(el)
             children = elements(el)
             childnames = map(n -> n.name, children)
             badlist = join(childnames, ", ")
@@ -48,12 +68,12 @@ function editedelement(builder::HmtTMBuilder, el, accum)
             throw(DomainError(msg))
             
         else
-            chosen = "USE THE NORMALIZED" #TEIchoice(builder, el)
+            chosen = EditionBuilders.TEIchoice(builder, el)
             push!(reply, chosen)
         end
 
     elseif el.name == "w"
-        push!(reply, "IMPLEMENT THE W") # collectw(el, builder))
+        push!(reply, EditionBuilders.collectw(el, builder))
        
         # check for word-fragment convention:
         # `w` with `@n` attribute:
@@ -94,7 +114,7 @@ function editedtext(builder::HmtTMBuilder, n::EzXML.Node, accum = "")::AbstractS
         push!(rslts, elresults)
 
 	elseif 	n.type == EzXML.TEXT_NODE
-		tidier = cleanws(n.content )
+		tidier = EditionBuilders.cleanws(n.content )
 		if !isempty(tidier)
 			push!(rslts, accum * tidier)
 		end

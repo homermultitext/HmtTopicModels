@@ -14,4 +14,15 @@
     wnode =  EzXML.parsexml(wxml) |> root
     @test EditionBuilders.collectw(wnode, tmbldr) == "Wordless"
 
+    editedel = editedelement(tmbldr, wnode, "")
+    @test editedel == "Wordless"
+    
+end
+
+@testset "Test choices" begin
+    tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "x")
+    choicexml = "<choice><expan>mevrouw</expan><abbr>mevr.</abbr></choice>"
+    doc = parsexml(choicexml)
+
+    @test TEIchoice(tmbldr, doc.root) == "mevrouw"
 end

@@ -5,9 +5,12 @@ using CitableCorpus
 using EzXML
 
 import EditionBuilders: skipelement
+import EditionBuilders: editedelement
+import EditionBuilders: TEIchoice
 
 include("builders.jl")
 
-export skipelement
+export editedelement, skipelement, TEIchoice
+
 
 end # module
