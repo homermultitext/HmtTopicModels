@@ -26,3 +26,12 @@ end
 
     @test TEIchoice(tmbldr, doc.root) == "mevrouw"
 end
+
+@testset "Test full node" begin
+    tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "x")
+    xml = "<l n=\"title\">θῆτα <persName n=\"urn:cite2:hmt:pers.v1:pers17\">ὁμήρου</persName> <choice><abbr>ῥαψωδ</abbr><expan>ῥαψωδίας</expan></choice></l>"
+    line = parsexml(xml)
+    s = editedtext(tmbldr, line.root)
+    println(s)
+
+end

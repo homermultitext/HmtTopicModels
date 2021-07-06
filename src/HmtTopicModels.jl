@@ -4,13 +4,13 @@ using CitableText
 using CitableCorpus
 using EzXML
 
-import EditionBuilders: skipelement
-import EditionBuilders: editedelement
-import EditionBuilders: TEIchoice
+import EditionBuilders: editedelement, editedtext
+import EditionBuilders: TEIchoice, skipelement
 
 include("builders.jl")
 
-export editedelement, skipelement, TEIchoice
+export editedelement, editedtext
+export skipelement, TEIchoice
 
 
 end # module

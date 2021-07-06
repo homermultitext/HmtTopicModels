@@ -74,17 +74,6 @@ function editedelement(builder::HmtTMBuilder, el, accum)
 
     elseif el.name == "w"
         push!(reply, EditionBuilders.collectw(el, builder))
-       
-        # check for word-fragment convention:
-        # `w` with `@n` attribute:
-        # mark for subsequent peek-ahead
-        #if hasattribute(el, "n")
-        #    push!(reply, " ++$(singletoken)++ ")
-        #else
-        #    push!(reply, " $(singletoken) ")
-        #end
-       
-        
         
     elseif skipelement(builder, el.name)
         # do nothing
