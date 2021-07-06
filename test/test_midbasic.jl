@@ -15,7 +15,7 @@
     @test EditionBuilders.collectw(wnode, tmbldr) == "Wordless"
 
     editedel = editedelement(tmbldr, wnode, "")
-    @test editedel == "Wordless"
+    @test editedel == "wordless"
     
 end
 
@@ -23,7 +23,6 @@ end
     tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "x")
     choicexml = "<choice><expan>mevrouw</expan><abbr>mevr.</abbr></choice>"
     doc = parsexml(choicexml)
-
     @test TEIchoice(tmbldr, doc.root) == "mevrouw"
 end
 

@@ -46,7 +46,6 @@ function TEIchoice(builder::HmtTMBuilder, n)
 end
 
 
-
 "Compose edited text of a given XML element using a given builder."
 function editedelement(builder::HmtTMBuilder, el, accum)
     if ! validelname(builder, el.name)
@@ -75,6 +74,17 @@ function editedelement(builder::HmtTMBuilder, el, accum)
     elseif el.name == "w"
         push!(reply, EditionBuilders.collectw(el, builder))
         
+
+    elseif el.name == "persName"
+        if ! haskey(el, "n")
+            msg = "Bad markup: no @n attribute in  $(ezxmlstring(el))"
+            throw(DomainError(msg))
+        else
+            # Should we test further here?
+            # For valid URN syntax? For presence in authlist?
+            push!(reply, el["n"])
+        end
+
     elseif skipelement(builder, el.name)
         # do nothing
 
@@ -87,10 +97,9 @@ function editedelement(builder::HmtTMBuilder, el, accum)
             end
         end
     end
-    strip(join(reply," "))
+    stripped = strip(join(reply," "))
+    Unicode.normalize(stripped; stripmark=true) |> lowercase
 end
-
-
 
 """Walk parsed XML tree and compose a specific edition.
 `builder` is the edition builder to use. `n` is a parsed Node. 
@@ -118,11 +127,9 @@ function editedtext(builder::HmtTMBuilder, n::EzXML.Node, accum = "")::AbstractS
 end
 
 
-#=
 "Builder for constructing a citable node for a diplomatic text from a citable node in archival XML."
-function editednode(builder::MidBasicBuilder, citablenode::CitableNode)
+function editednode(builder::HmtTMBuilder, citablenode::CitableNode)
     nd  = root(parsexml(citablenode.text))
     editiontext = editedtext(builder, nd)
     CitableNode(addversion(citablenode.urn, builder.versionid), editiontext)
 end
-=#
