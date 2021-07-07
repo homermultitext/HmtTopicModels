@@ -30,7 +30,22 @@ end
     tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "x")
     xml = "<l n=\"title\">θῆτα <persName n=\"urn:cite2:hmt:pers.v1:pers17\">ὁμήρου</persName> <choice><abbr>ῥαψωδ</abbr><expan>ῥαψωδίας</expan></choice></l>"
     line = parsexml(xml)
+    expected = "θητα pers_pers17 ραψωδιας"
     s = editedtext(tmbldr, line.root)
-    println(s)
+    @test s == expected
+end
 
+@testset "Test corpus edition" begin    
+    xml = "<l n=\"title\">θῆτα <persName n=\"urn:cite2:hmt:pers.v1:pers17\">ὁμήρου</persName> <choice><abbr>ῥαψωδ</abbr><expan>ῥαψωδίας</expan></choice></l>"
+    urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msB:4.title")
+    cn = CitableNode(urn, xml)
+    corpus = CitableTextCorpus([cn])
+    
+    tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "msBtm")
+    tmedition = edition(tmbldr, corpus)
+    tmnode = tmedition.corpus[1]
+    expectedwork =  "tlg0012.tlg001.msBtm"
+    @test workcomponent(tmnode.urn) == expectedwork
+    expectedtext = "θητα pers_pers17 ραψωδιας"
+    @test tmnode.text == expectedtext
 end
