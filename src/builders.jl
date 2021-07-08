@@ -84,11 +84,12 @@ function editedelement(builder::HmtTMBuilder, el, accum)
             # For valid URN syntax? For presence in authlist?
             try 
                 urn = Cite2Urn(el["n"])
-                obj = objectcomponent(urn)
-                parts = split(collectioncomponent(urn), ".")
+                #obj = objectcomponent(urn)
+                #parts = split(collectioncomponent(urn), ".")
 
 
-                push!(reply, string(parts[1], "_", obj))
+                #push!(reply, string(parts[1], "_", obj))
+                push!(reply, urn.urn)
             catch e
                 msg = "Invalid URN in $(ezxmlstring(el))"
                 throw(DomainError(msg))
@@ -142,4 +143,14 @@ function editednode(builder::HmtTMBuilder, citablenode::CitableNode)
     nd  = root(parsexml(citablenode.text))
     editiontext = editedtext(builder, nd)
     CitableNode(addversion(citablenode.urn, builder.versionid), editiontext)
+end
+
+"""
+Postprocess reading of TM edition by dropping stopwords, applying
+minimum length to tokens, and rewriting URN values.
+
+
+"""
+function tmclean(corpus::CitableTextCorpus, stopwords, thresh=3)
+
 end
