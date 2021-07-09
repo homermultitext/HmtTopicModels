@@ -1,3 +1,9 @@
+@testset "Test working with persname authlist" begin
+    df = persname_df()
+    @test typeof(df)== DataFrames.DataFrame
+end
+
+
 
 @testset "Test postprocessing raw corpus" begin
     cn = CitableNode(CtsUrn("urn:cts:dummy:tests.test1:1"), "This is a short passage of text")
