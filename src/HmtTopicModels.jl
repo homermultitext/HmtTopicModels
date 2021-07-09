@@ -18,5 +18,7 @@ export editednode, editedelement, editedtext
 export tmclean
 export skipelement, TEIchoice
 export persname_df, label
+export  shorturn, labelledshortform
+
 
 end # module
