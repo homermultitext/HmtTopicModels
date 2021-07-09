@@ -30,7 +30,7 @@ end
     tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "x")
     xml = "<l n=\"title\">θῆτα <persName n=\"urn:cite2:hmt:pers.v1:pers17\">ὁμήρου</persName> <choice><abbr>ῥαψωδ</abbr><expan>ῥαψωδίας</expan></choice></l>"
     line = parsexml(xml)
-    expected = "θητα pers_pers17 ραψωδιας"
+    expected = "θητα urn:cite2:hmt:pers.v1:pers17 ραψωδιας"
     s = editedtext(tmbldr, line.root)
     @test s == expected
 end
@@ -46,6 +46,6 @@ end
     tmnode = tmedition.corpus[1]
     expectedwork =  "tlg0012.tlg001.msBtm"
     @test workcomponent(tmnode.urn) == expectedwork
-    expectedtext = "θητα pers_pers17 ραψωδιας"
+    expectedtext = "θητα urn:cite2:hmt:pers.v1:pers17 ραψωδιας"
     @test tmnode.text == expectedtext
 end

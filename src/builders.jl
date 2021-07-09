@@ -151,6 +151,21 @@ minimum length to tokens, and rewriting URN values.
 
 
 """
-function tmclean(corpus::CitableTextCorpus, stopwords, thresh=3)
-
+function tmclean(c::CitableTextCorpus, stopwords, thresh=3)
+    cleannodes = []
+    for cn in c.corpus
+        tokens = cn.text |> split
+        cleantokens = []
+        for t in tokens    
+            if length(t) < thresh
+                # skip
+            elseif t in stopwords
+                # skip
+            else
+                push!(cleantokens, t)
+            end
+        end
+        push!(cleannodes, CitableNode(cn.urn, join(cleantokens," ")))
+    end
+    CitableTextCorpus(cleannodes)
 end

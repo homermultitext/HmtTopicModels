@@ -11,6 +11,7 @@ import EditionBuilders: TEIchoice, skipelement
 include("builders.jl")
 
 export editednode, editedelement, editedtext
+export tmclean
 export skipelement, TEIchoice
 
 
