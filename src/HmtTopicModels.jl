@@ -17,6 +17,6 @@ include("authlists.jl")
 export editednode, editedelement, editedtext
 export tmclean
 export skipelement, TEIchoice
-export persname_df
+export persname_df, label
 
 end # module

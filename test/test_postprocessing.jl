@@ -1,6 +1,9 @@
 @testset "Test working with persname authlist" begin
     df = persname_df()
     @test typeof(df)== DataFrames.DataFrame
+
+    achilles = "urn:cite2:hmt:pers.v1:pers1"
+    @test label(achilles, df) == "Achilles"
 end
 
 
