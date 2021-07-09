@@ -27,5 +27,22 @@ end
 
     badurn = Cite2Urn("urn:cite2:hmt:pers.v1:OUTIS")
     @test labelledshortform(badurn, persname_df()) == "pers_OUTIS_error"
+end
 
+@testset "Test use of stopword list" begin
+    stops = readdlm("data/stops.txt")
+    u = CtsUrn("urn:cts:greekLit:tlg5026.msB.v1:4.51r_5")
+    txt = "<p>πιθανῶς ἐκ τοῦ κάτωθεν θορύβου, ἐις 
+    <choice><abbr>ὀυνὸν</abbr><expan>οὐρανὸν</expan></choice>
+   τὴν σκηνὴν μετήγαγεν: σεμνύνων καὶ ποικίλλων ἅμα τὴν ποίησιν,
+   τόποις τὲ καὶ προσώποις καὶ λόγοις: ὑπονοεῖν δε δεῖ παρὰ τὴν
+   ἁρπαγὴν ἀλεξάνδρου τοὺς λογους γεγενῆσθαι τοῖς θεοῖς:  ηὔξησε δὲ 
+   τὸ ἀγωνιστικὸν τῆς ὑποθέσεως τῇ τῶν θεῶν προνοίᾳ ⁑ </p>"
+
+   cn = CitableNode(u,txt)
+   c = CitableTextCorpus([cn])
+   tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "x")
+   ed = edition(tmbldr,c)
+   tmed = tmclean(ed, stops)
+   println(tmed.corpus[1].text)
 end

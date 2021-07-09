@@ -7,6 +7,7 @@ using Unicode
 using CSV
 using DataFrames
 using HTTP
+using DelimitedFiles
 
 import EditionBuilders: editednode, editedelement, editedtext
 import EditionBuilders: TEIchoice, skipelement

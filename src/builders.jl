@@ -152,6 +152,7 @@ minimum length to tokens, and rewriting URN values.
 
 """
 function tmclean(c::CitableTextCorpus, stopwords, thresh=3)
+    pns = persname_df()
     cleannodes = []
     for cn in c.corpus
         tokens = cn.text |> split
@@ -163,10 +164,11 @@ function tmclean(c::CitableTextCorpus, stopwords, thresh=3)
                 # skip
 
             elseif startswith(t, "urn:cite2:hmt:pers")
-                # Treat This
-                push!(cleantokens, string("MODIFIED URN ", t))
+                push!(cleantokens, labelledshortform(t, pns))
+                
             else
-                push!(cleantokens, t)
+                nopunct = replace(t, r"[\.,:⁑']" => "")
+                push!(cleantokens, nopunct)
             end
         end
         push!(cleannodes, CitableNode(cn.urn, join(cleantokens," ")))
