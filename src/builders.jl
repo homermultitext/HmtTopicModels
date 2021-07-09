@@ -161,6 +161,10 @@ function tmclean(c::CitableTextCorpus, stopwords, thresh=3)
                 # skip
             elseif t in stopwords
                 # skip
+
+            elseif startswith(t, "urn:cite2:hmt:pers")
+                # Treat This
+                push!(cleantokens, string("MODIFIED URN ", t))
             else
                 push!(cleantokens, t)
             end
