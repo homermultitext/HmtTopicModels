@@ -1,7 +1,7 @@
 name = "HmtTopicModels"
 uuid = "aae9453e-04ed-41b9-87a3-64f05817c30c"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -19,7 +19,7 @@ Unicode = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
 [compat]
 CSV = "0.8"
-CitableCorpus = "0.2"
+CitableCorpus = "0.2, 0.3"
 CitableObject = "0.6"
 CitableText = "0.9"
 DataFrames = "1"
