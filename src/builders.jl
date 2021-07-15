@@ -164,7 +164,7 @@ function tmclean(c::CitableTextCorpus, stopwords, thresh=3)
                 # skip
 
             elseif startswith(t, "urn:cite2:hmt:pers")
-                push!(cleantokens, labelledshortform(t, pns))
+                push!(cleantokens, labelledshortform(Cite2Urn(t), pns))
                 
             else
                 nopunct = replace(t, r"[\.,:⁑']" => "")
