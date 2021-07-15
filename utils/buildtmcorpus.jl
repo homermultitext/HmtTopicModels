@@ -17,8 +17,8 @@ xmlcorpus = CitableCorpus.fromurl(CitableTextCorpus, xmlurl, "|")
 tmedition = edition(tmbldr, xmlcorpus)
 
 
-tmcex = cex(tmedition)
+#tmcex = cex(tmedition)
 tmfile = "topicmodelingedition.cex"
 open(tmfile,"w") do io
-    write(io, tmcex)
+    write(io, cex(tmedition))
 end
