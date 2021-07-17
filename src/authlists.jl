@@ -33,7 +33,7 @@ end
 function shorturn(u::Cite2Urn, delimiter="")
     collparts = split(collectioncomponent(u), ".")
     coll = collparts[1]
-    string(coll, delimiter, objectcomponent(u))
+    string(coll, delimiter, objectcomponent(u)) |> replacedigits
 end
 
 
