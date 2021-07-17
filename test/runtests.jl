@@ -8,4 +8,5 @@ using DelimitedFiles
 
 include("test_midbasic.jl")
 include("test_postprocessing.jl")
+include("test_abbrurns.jl")
 

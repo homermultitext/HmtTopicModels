@@ -17,18 +17,6 @@ end
 end
 
 
-@testset "Test abbreviated URN" begin
-    achillesurn = Cite2Urn("urn:cite2:hmt:pers.v1:pers1")
-    @test shorturn(achillesurn) == "pers_pers1"
-    @test shorturn(achillesurn,":") == "pers:pers1"
-    @test labelledshortform(achillesurn, persname_df()) == "pers_pers1_Achilles"
-    @test labelledshortform(achillesurn, persname_df(),":") == "pers:pers1:Achilles"
-
-
-    badurn = Cite2Urn("urn:cite2:hmt:pers.v1:OUTIS")
-    @test labelledshortform(badurn, persname_df()) == "pers_OUTIS_error"
-end
-
 @testset "Test use of stopword list" begin
     stops = readdlm("data/stops.txt")
     u = CtsUrn("urn:cts:greekLit:tlg5026.msB.v1:4.51r_5")

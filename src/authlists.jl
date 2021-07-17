@@ -30,7 +30,7 @@ end
 
 """Use abbreviated collection/object form for URN value.
 """
-function shorturn(u::Cite2Urn, delimiter="_")
+function shorturn(u::Cite2Urn, delimiter="")
     collparts = split(collectioncomponent(u), ".")
     coll = collparts[1]
     string(coll, delimiter, objectcomponent(u))
@@ -39,12 +39,44 @@ end
 
 """Label short form URN with label from persname collection.
 """
-function labelledshortform(u::Cite2Urn, df, delimiter="_")
+function labelledshortform(u::Cite2Urn, df, delimiter="")
     lbl = label(u.urn, df)
     if isnothing(lbl)
         @warn "No label for URN $u found in personal names authority list."
         string(shorturn(u, delimiter), delimiter, "error")
     else
         string(shorturn(u, delimiter), delimiter, lbl)
+      
     end
+end
+
+"""Map digits to one-character strings.
+"""
+digitmap = Dict(
+    '1' => "a",
+    '2' => "b",
+    '3' => "c",
+    '4' => "d",
+    '5' => "e",
+    '6' => "f",
+    '7' => "g",
+    '8' => "h",
+    '9' => "i",
+    '0' => "j"
+)
+
+
+"""Replace digit characters in s with alphabetic characters.
+
+"""
+function replacedigits(s)
+    clist = []
+    for c in s
+        if c in keys(digitmap)
+            push!(clist, digitmap[c])
+        else
+            push!(clist, c)
+        end
+    end
+    join(clist)
 end

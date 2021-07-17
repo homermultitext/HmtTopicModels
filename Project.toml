@@ -1,7 +1,7 @@
 name = "HmtTopicModels"
 uuid = "aae9453e-04ed-41b9-87a3-64f05817c30c"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.1.1"
+version = "0.2.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
