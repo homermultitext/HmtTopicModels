@@ -157,17 +157,17 @@ function tmclean(c::CitableTextCorpus, stopwords, thresh=3)
     for cn in c.corpus
         tokens = cn.text |> split
         cleantokens = []
-        for t in tokens    
-            if length(t) < thresh
+        for t in tokens   
+            nopunct = replace(t, r"[\.,:⁑'⸌‡_^]" => "") 
+            if length(nopunct) < thresh
                 # skip
-            elseif t in stopwords
+            elseif nopunct in stopwords
                 # skip
 
-            elseif startswith(t, "urn:cite2:hmt:pers")
-                push!(cleantokens, labelledshortform(Cite2Urn(t), pns))
+            elseif startswith(nopunct, "urn:cite2:hmt:pers")
+                push!(cleantokens, labelledshortform(Cite2Urn(nopunct), pns))
                 
-            else
-                nopunct = replace(t, r"[\.,:⁑']" => "")
+            else 
                 push!(cleantokens, nopunct)
             end
         end
