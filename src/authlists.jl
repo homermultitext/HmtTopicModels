@@ -25,7 +25,8 @@ end
 """Look up label for URN value in DataFrame of personal names.
 """
 function label(urn::Cite2Urn, df)
-    label(urn.urn, df)
+    lbl = label(urn.urn, df)
+    replace(lbl, " " => "")
 end
 
 """Use abbreviated collection/object form for URN value.
