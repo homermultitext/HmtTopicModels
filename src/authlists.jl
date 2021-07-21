@@ -18,7 +18,7 @@ function label(urnstring::AbstractString, df)
         @warn "No matches for $urnstring"
         nothing
     else        
-        matched[1,:label]
+        replace(matched[1,:label], r"[\s]+" => "")
 	end
 end
 
@@ -26,7 +26,8 @@ end
 """
 function label(urn::Cite2Urn, df)
     lbl = label(urn.urn, df)
-    replace(lbl, " " => "")
+    stripwhite = replace(lbl, r"\s+" => "")
+    stripwhite
 end
 
 """Use abbreviated collection/object form for URN value.
@@ -41,7 +42,9 @@ end
 """Label short form URN with label from persname collection.
 """
 function labelledshortform(u::Cite2Urn, df, delimiter="")
+    
     lbl = label(u.urn, df)
+    @warn("LOOKING AT $u and strated from $lbl")
     if isnothing(lbl)
         @warn "No label for URN $u found in personal names authority list."
         string(shorturn(u, delimiter), delimiter, "error")
